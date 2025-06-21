@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  springboot:
+    build: .
+    container_name: springboot-ibmdevops
+    ports:
+      - "8081:8080"
+    depends_on:
+      - graphite
+    restart: unless-stopped
+
+  graphite:
+    image: graphiteapp/graphite-statsd
+    container_name: graphite
+    ports:
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "8082:80"
+      - "8125:8125/udp"
+      - "8126:8126"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
